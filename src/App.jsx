@@ -1,12 +1,10 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import useRoutes from "./routers";
+import DashboardSidebarLayout from "./components/layout/DashboardSidebarLayout";
 
-import { Navbar } from "./components/Navbar";
-import { Footer } from "./components/Footer";
+
 
 function App() {
   const routes = useRoutes();
@@ -14,13 +12,30 @@ function App() {
 
   return (
     <>
-    <Navbar/>
-      <Routes>
-        {routes.map(({ path, element: Element }) => {
-          return <Route key={path} path={path} element={<Element />} />;
-        })}
-      </Routes>
-      <Footer/>
+    <Routes>
+      {routes.map(
+        ({ path, element: Element, isLayout, isProtected }, index) => {
+          if (isLayout)
+            return (
+              <Route
+                key={path + "_" + index}
+                path={path}
+                element={
+                  <DashboardSidebarLayout>
+                    <Element />
+                  </DashboardSidebarLayout>
+                }
+              />
+            );
+
+          return (
+            <Route key={path + "_" + index} path={path} element={<Element />} />
+          );
+        }
+      )}
+
+      <Route path="*" element={<div className="flex justify-center items-center w-full min-h-screen">Page Not Found</div>} />
+    </Routes>
     </>
   );
 }
