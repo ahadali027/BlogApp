@@ -34,7 +34,7 @@ export const dashboardRoutes = [
     path: URLS.USER_DASHBOARD.CREATE_BLOG,
     element: CreateBlog,
     Icon: NotebookPen,
-    title: "Create Blog",
+    title: "Create new blog",
     isLayout: true,
   },
   {

@@ -8,7 +8,7 @@ const URLS = {
       DASHBOARD: "/dashboard",
       PROFILE: "/dashboard/profile",
       MY_BLOGS: "/dashboard/my-blogs",
-      CREATE_BLOG: "/dashboard/create-blog",
+      CREATE_BLOG: "/dashboard/create-new-blog",
       ANALYTICS: "/dashboard/analytics",
       SETTINGS: "/dashboard/settings",
     },

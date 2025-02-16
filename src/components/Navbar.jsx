@@ -1,31 +1,40 @@
+import { useState } from "react";
 
-import { useState} from "react"
-
-import { Menu, Search, ChevronDown, Sun, Moon, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Link } from "react-router-dom"
-import URLS from "@/config/config"
-import Logo from "./Logo.jsx"
+import { Menu, Search, ChevronDown, Sun, Moon, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Link } from "react-router-dom";
+import URLS from "@/config/config";
+import Logo from "./Logo.jsx";
 
 export function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isSearchOpen, setIsSearchOpen] = useState(false)
-  
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   return (
     <nav className="bg-background border-b border-border sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-           <Logo/>
+            <Logo />
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
                 <NavLink to={URLS.HOME}>Home</NavLink>
                 <NavLink href="/">Blogs</NavLink>
-                <NavDropdown title="Categories" items={["Technology", "Travel", "Food", "Lifestyle"]} />
-                <NavDropdown title="Trending" items={["This Week", "This Month", "All Time"]} />
+                <NavDropdown
+                  title="Categories"
+                  items={["Technology", "Travel", "Food", "Lifestyle"]}
+                />
+                <NavDropdown
+                  title="Trending"
+                  items={["This Week", "This Month", "All Time"]}
+                />
                 <NavLink href="/about">About</NavLink>
               </div>
             </div>
@@ -34,12 +43,13 @@ export function Navbar() {
             <div className="ml-4 flex items-center md:ml-6">
               <SearchBar isOpen={isSearchOpen} setIsOpen={setIsSearchOpen} />
               <div className="ml-3 flex items-center">
-                
                 <Button variant="ghost" size="sm" className="ml-2">
-                  Login
+                  <Link className="w-full" to={URLS.AUTH.LOGIN}>
+                    Login
+                  </Link>
                 </Button>
                 <Button variant="default" size="sm" className="ml-2">
-                  Register
+                  <Link className="w-full" to={URLS.AUTH.REGISTER}>Register</Link>
                 </Button>
               </div>
             </div>
@@ -66,14 +76,28 @@ export function Navbar() {
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <MobileNavLink href="/">Home</MobileNavLink>
-            <MobileNavDropdown title="Categories" items={["Technology", "Travel", "Food", "Lifestyle"]} />
-            <MobileNavDropdown title="Trending" items={["This Week", "This Month", "All Time"]} />
+            <MobileNavDropdown
+              title="Categories"
+              items={["Technology", "Travel", "Food", "Lifestyle"]}
+            />
+            <MobileNavDropdown
+              title="Trending"
+              items={["This Week", "This Month", "All Time"]}
+            />
             <MobileNavLink href="/about">About</MobileNavLink>
           </div>
           <div className="pt-4 pb-3 border-t border-border">
             <div className="flex items-center px-5">
-              <Button variant="ghost" size="sm" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-                {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              >
+                {theme === "dark" ? (
+                  <Sun className="h-5 w-5" />
+                ) : (
+                  <Moon className="h-5 w-5" />
+                )}
               </Button>
               <Button variant="ghost" size="sm" className="ml-2">
                 Login
@@ -86,7 +110,7 @@ export function Navbar() {
         </div>
       )}
     </nav>
-  )
+  );
 }
 
 function NavLink({ href, children }) {
@@ -97,7 +121,7 @@ function NavLink({ href, children }) {
     >
       {children}
     </Link>
-  )
+  );
 }
 
 function NavDropdown({ title, items }) {
@@ -112,12 +136,18 @@ function NavDropdown({ title, items }) {
       <DropdownMenuContent align="start">
         {items.map((item) => (
           <DropdownMenuItem key={item}>
-            <Link href={`/${title.toLowerCase()}/${item.toLowerCase().replace(" ", "-")}`}>{item}</Link>
+            <Link
+              href={`/${title.toLowerCase()}/${item
+                .toLowerCase()
+                .replace(" ", "-")}`}
+            >
+              {item}
+            </Link>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
 
 function MobileNavLink({ href, children }) {
@@ -128,11 +158,11 @@ function MobileNavLink({ href, children }) {
     >
       {children}
     </Link>
-  )
+  );
 }
 
 function MobileNavDropdown({ title, items }) {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div>
@@ -141,19 +171,28 @@ function MobileNavDropdown({ title, items }) {
         className="text-muted-foreground hover:text-foreground w-full text-left px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 flex items-center justify-between"
       >
         {title}
-        <ChevronDown className={`ml-1 h-4 w-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+        <ChevronDown
+          className={`ml-1 h-4 w-4 transition-transform duration-200 ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        />
       </button>
       {isOpen && (
         <div className="pl-4 space-y-1">
           {items.map((item) => (
-            <MobileNavLink key={item} href={`/${title.toLowerCase()}/${item.toLowerCase().replace(" ", "-")}`}>
+            <MobileNavLink
+              key={item}
+              href={`/${title.toLowerCase()}/${item
+                .toLowerCase()
+                .replace(" ", "-")}`}
+            >
               {item}
             </MobileNavLink>
           ))}
         </div>
       )}
     </div>
-  )
+  );
 }
 
 function SearchBar({ isOpen, setIsOpen }) {
@@ -170,12 +209,16 @@ function SearchBar({ isOpen, setIsOpen }) {
             placeholder="Search..."
             className="w-64 pr-8 rounded-md bg-secondary text-secondary-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:bg-background"
           />
-          <Button variant="ghost" size="icon" className="absolute right-0" onClick={() => setIsOpen(false)}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute right-0"
+            onClick={() => setIsOpen(false)}
+          >
             <X className="h-5 w-5" />
           </Button>
         </div>
       )}
     </div>
-  )
+  );
 }
-
