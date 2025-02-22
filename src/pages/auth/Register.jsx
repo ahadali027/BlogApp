@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Link } from "react-router-dom"
 import URLS from "@/config/config"
+import { API_ENDPOINTS } from "@/config/api_endpoints"
+import { fetchRequest } from "@/utils/fetchRequest"
 
 const signupSchema = z.object({
   username: z.string().min(3, {
@@ -40,16 +42,18 @@ export default function SignupPage() {
     },
   })
 
-  function onSubmit(values) {
-    setIsLoading(true)
-    // Simulate API call
-    setTimeout(() => {
-      console.log(values)
-      setIsLoading(false)
-    
-
-    }, 2000)
-  }
+   function onSubmit({username,email, password}) {
+      setIsLoading(true);
+      fetchRequest(API_ENDPOINTS.AUTH.REGISTER, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({username,email,password}),
+      })
+        .then((res) => res.json().then((data) => console.log(data)))
+        .finally(() => setIsLoading(false));
+    }
 
   return (
     <div className="flex items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8">

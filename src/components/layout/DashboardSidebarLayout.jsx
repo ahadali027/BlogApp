@@ -55,10 +55,10 @@ export default function DashboardSidebarLayout({ children }) {
             </BreadcrumbList>
           </Breadcrumb>
           <div className="flex gap-5 items-center ml-auto">
-            Ahad
+            User
             <Avatar className="ml-auto">
               <AvatarImage />
-              <AvatarFallback>AH</AvatarFallback>
+              <AvatarFallback>US</AvatarFallback>
             </Avatar>
           </div>
         </header>

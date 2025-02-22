@@ -15,6 +15,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import URLS from "@/config/config";
+import { fetchRequest } from "@/utils/fetchRequest";
+import { API_ENDPOINTS } from "@/config/api_endpoints";
 
 export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,12 +33,17 @@ export default function SignInPage() {
     },
   });
 
-  function onSubmit(values) {
+  function onSubmit({email, password}) {
     setIsLoading(true);
-    setTimeout(() => {
-      console.log(values);
-      setIsLoading(false);
-    }, 2000);
+    fetchRequest(API_ENDPOINTS.AUTH.LOGIN, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({email,password}),
+    })
+      .then((res) => res.json().then((data) => console.log(data)))
+      .finally(() => setIsLoading(false));
   }
 
   return (
@@ -94,7 +101,9 @@ export default function SignInPage() {
           <div className="text-sm text-muted-foreground">
             Don&apos;t have an account?{" "}
             <Button variant="link" className="px-0 text-sm">
-              <Link to={URLS.AUTH.REGISTER} className="w-full">Sign up</Link>
+              <Link to={URLS.AUTH.REGISTER} className="w-full">
+                Sign up
+              </Link>
             </Button>
           </div>
         </CardFooter>
