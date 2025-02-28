@@ -13,12 +13,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import URLS from "@/config/config";
 import { fetchRequest } from "@/utils/fetchRequest";
 import { API_ENDPOINTS } from "@/config/api_endpoints";
+import { useDispatch } from "react-redux";
+import { login } from "@/store/slices/authSlice";
 
 export default function SignInPage() {
+  const disptach = useDispatch();
+  const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -42,7 +46,14 @@ export default function SignInPage() {
       },
       body: JSON.stringify({email,password}),
     })
-      .then((res) => res.json().then((data) => console.log(data)))
+      .then((res) => res.json().then((data) => {
+        if(data.token){
+          localStorage.setItem("auth token", data.token)
+          disptach(login(data.user))
+          // window.location.href=URLS.USER_DASHBOARD.DASHBOARD
+          navigate(URLS.USER_DASHBOARD.DASHBOARD)
+        }
+      }))
       .finally(() => setIsLoading(false));
   }
 
